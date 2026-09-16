@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# PyInstaller 打包产物
+build/
+dist/
+_smoke2/
+
+# 用户数据（提醒内容属于个人数据，不入库）
+reminders.json
