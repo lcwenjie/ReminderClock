@@ -8,9 +8,10 @@
 ## 下载（不想装 Python 的话）
 
 到 [Releases 页面](https://github.com/lcwenjie/ReminderClock/releases) 下载
-最新版本的 `提醒钟.exe`，**单文件免安装**，双击即可运行，目标电脑不需要安装
-Python。提醒数据保存在 exe 同目录的 `reminders.json`，连同 exe 一起拷贝就能
-带着已有任务换电脑。
+最新版本的 `ReminderClock-v1.0.0.exe`（文件名带版本号；程序窗口标题仍显示
+“提醒钟”），**单文件免安装**，双击即可运行，目标电脑不需要安装 Python。
+提醒数据保存在 exe 同目录的 `reminders.json`，连同 exe 一起拷贝就能带着
+已有任务换电脑。
 
 > Windows SmartScreen 可能对未签名的 exe 给出“未知发布者”提示，
 > 点“更多信息” → “仍要运行”即可（个人项目未购买代码签名证书）。

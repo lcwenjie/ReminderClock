@@ -37,14 +37,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # 用 pwsh 上传：Git Bash 下中文文件名会被破坏成 default.exe
+          # 附件名改成 ASCII：gh 上传非 ASCII 文件名时会被破坏成 default.exe
           $exe = Get-ChildItem -Path dist -Filter *.exe | Select-Object -First 1
           if (-not $exe) { throw "dist 下未找到打包产物" }
-          $OutputEncoding = [System.Text.UTF8Encoding]::new()
+          $asset = Join-Path dist "ReminderClock-$env:GITHUB_REF_NAME.exe"
+          Copy-Item $exe.FullName -Destination $asset -Force
           gh release create $env:GITHUB_REF_NAME `
             --title "提醒钟 $env:GITHUB_REF_NAME" `
             --generate-notes `
-            $exe.FullName
+            $asset
 
       - name: 上传构建产物（仅手动触发时）
         if: github.event_name == 'workflow_dispatch'
