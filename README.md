@@ -5,6 +5,16 @@
 “每天 / 每周”都可选择按**指定时间**或**时间段**提醒，以及延迟时间可自定义的
 “稍后提醒”功能。
 
+## 下载（不想装 Python 的话）
+
+到 [Releases 页面](https://github.com/lcwenjie/ReminderClock/releases) 下载
+最新版本的 `提醒钟.exe`，**单文件免安装**，双击即可运行，目标电脑不需要安装
+Python。提醒数据保存在 exe 同目录的 `reminders.json`，连同 exe 一起拷贝就能
+带着已有任务换电脑。
+
+> Windows SmartScreen 可能对未签名的 exe 给出“未知发布者”提示，
+> 点“更多信息” → “仍要运行”即可（个人项目未购买代码签名证书）。
+
 ## 功能一览
 
 - 提醒列表管理：**新增 / 编辑 / 删除 / 启用·暂停**
@@ -111,6 +121,21 @@ python -m PyInstaller --noconfirm --clean 提醒钟.spec
   已有任务**，互不干扰；
 - 建议先发给一台测试机跑一遍（新增/编辑/到点提醒/托盘退出），确认无误再分发。
 
+### 发布到 GitHub Releases
+
+`dist/` 已在 `.gitignore` 中忽略，构建产物不作为源码入库，而是在
+[Releases](https://github.com/lcwenjie/ReminderClock/releases) 里作为附件提供下载。
+仓库内已配好 Actions 工作流（`.github/workflows/release.yml`）：
+
+```bash
+git tag v1.0.0        # 打标签，v 开头
+git push origin v1.0.0
+```
+
+推送标签后会自动在 Windows 环境打包，并创建同名 Release、把 `dist\提醒钟.exe`
+作为附件上传。也可以在 GitHub 的 Actions 页面手动运行该工作流（只构建、
+把 exe 存为构件，不发布）。
+
 ## 目录结构
 
 ```text
@@ -133,8 +158,10 @@ gui/
   tray.py             # 托盘图标与菜单（pystray）
 tests/
   test_scheduler.py   # 调度算法单元测试
+.github/workflows/
+  release.yml         # 打 v* 标签后自动打包并发布 GitHub Release
 dist/
-  提醒钟.exe           # 打包产物（单文件 exe，拷走即用）
+  提醒钟.exe           # 本地打包产物（单文件 exe；不入库，走 Release 分发）
 build/                # PyInstaller 构建中间文件（可随时删除）
 reminders.json        # 提醒数据（运行时生成于程序目录，勿提交版本库）
 error.log             # 出错时才生成
