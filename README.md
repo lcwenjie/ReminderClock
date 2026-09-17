@@ -8,8 +8,8 @@
 ## 下载（不想装 Python 的话）
 
 到 [Releases 页面](https://github.com/lcwenjie/ReminderClock/releases) 下载
-最新版本的 `ReminderClock-v1.0.0.exe`（文件名带版本号；程序窗口标题仍显示
-“提醒钟”），**单文件免安装**，双击即可运行，目标电脑不需要安装 Python。
+最新版本的 `ReminderClock-vX.Y.Z.exe`（文件名带版本号，如 `v1.0.0`；程序窗口
+标题仍显示“提醒钟”），**单文件免安装**，双击即可运行，目标电脑不需要安装 Python。
 提醒数据保存在 exe 同目录的 `reminders.json`，连同 exe 一起拷贝就能带着
 已有任务换电脑。
 
@@ -129,13 +129,25 @@ python -m PyInstaller --noconfirm --clean 提醒钟.spec
 仓库内已配好 Actions 工作流（`.github/workflows/release.yml`）：
 
 ```bash
-git tag v1.0.0        # 打标签，v 开头
-git push origin v1.0.0
+git add -A                  # 1. 暂存改动
+git commit -m "说明"         # 2. 提交到本地
+git push origin main        # 3. 推源码到 GitHub
+git tag v1.1.0              # 4. 打标签（换成新版本号，v 开头）
+git push origin v1.1.0      # 5. 推标签 → 触发自动打包发布
 ```
 
-推送标签后会自动在 Windows 环境打包，并创建同名 Release、把 `dist\提醒钟.exe`
-作为附件上传。也可以在 GitHub 的 Actions 页面手动运行该工作流（只构建、
-把 exe 存为构件，不发布）。
+第 5 步不能省：`git push origin main` 不会顺带推送标签，标签不推上去 Actions
+就不会触发。推送后会自动在 Windows 环境打包，并创建同名 Release，把
+`dist\提醒钟.exe` 以 `ReminderClock-<版本号>.exe` 的名字作为附件上传
+（改名是因为 gh 上传中文文件名时会被破坏成 `default.exe`）。
+
+也可以在 GitHub 的 Actions 页面手动运行该工作流（只构建、把 exe 存为工作流
+构件，不发布）。
+
+> 版本号不能重复：已有 `v1.0.0`，下次用 `v1.1.0`（新功能）、`v1.0.1`（修 bug）
+> 之类；照抄上面的 `v1.1.0` 时记得换成你自己的版本号。
+> 已推送的标签若要删除：`git push origin --delete <标签名>`，
+> 再删本地的 `git tag -d <标签名>`。
 
 ## 目录结构
 
